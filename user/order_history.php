@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
-    header("Location: login.php");
+    header("Location:order_history.php");
     exit();
 }
-include '../db/db.php';
+include '../includes/db.php';
 
 $userId = $_SESSION['user_id'];
 
