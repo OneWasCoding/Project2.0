@@ -1,6 +1,6 @@
 <header>
     <nav>
-        <a href="index.php">Home</a>
+        <a href="home.php">Home</a>
         <a href="shop.php">Shop</a>
         <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
             <a href="admin/dashboard.php">Admin Dashboard</a>
