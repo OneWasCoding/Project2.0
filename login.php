@@ -1,34 +1,23 @@
-<?php
-session_start();
-include 'db/db.php';
+<?php 
+include ('includes/db.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if(isset($_POST['access'])){
+  $sql1= "SELECT * FROM users where username={$_POST['username']} && password_hash={$_POST['password']}";
+  $result =mysqli_query($conn,$sql1);
+  
+  if(mysqli_affected_rows($conn)>0){
+       $row=mysqli_fetch_assoc($result);
+     $_SESSION['role']=$row['role'];
+     $_SESSION['id']=$row['id'];
+     header("location:admin/dashboard.php");
+     exit;
 
-    $sql = "SELECT * FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
-            if ($user['role'] === 'admin') {
-                header("Location: admin/dashboard.php");
-            } else {
-                header("Location: user/dashboard.php");
-            }
-            exit();
-        } else {
-            echo "Incorrect password.";
-        }
-    } else {
-        echo "User not found.";
-    }
+  }else{
+    print "failed to execute";
+  }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -41,12 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'includes/header.php'; ?>
     <div class="form-container">
         <h2>Login</h2>
-        <form method="POST">
+        <form method="POST" action="login.php" >
             <label>Username:</label>
             <input type="text" name="username" required>
             <label>Password:</label>
             <input type="password" name="password" required>
-            <button type="submit">Login</button>
+            <button type="submit" name="access" value="access">Login</button>
         </form>
     </div>
     <?php include 'includes/footer.php'; ?>
