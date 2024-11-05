@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
-    header("Location: login.php");
+    header("Location:user/dashboard.php");
     exit();
 }
 ?>
@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 <body>
     <?php include '../includes/header.php'; ?>
     <main>
-        <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+        <h1>Welcome Nigga, <?php echo $_SESSION['username']; ?>!</h1>
         <div class="dashboard-links">
             <a href="shop.php" class="btn">Go to Shop</a>
             <a href="cart.php" class="btn">View Cart</a>
