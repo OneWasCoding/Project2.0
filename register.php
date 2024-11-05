@@ -1,35 +1,12 @@
-<?php
-include 'db/db.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $email = $_POST['email'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $address = $_POST['address'];
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
-    $role = 'user'; // default role for new users
+<?php 
+ include 'includes/db.php';
 
-    // Handle file upload for profile picture
-    $profileImage = $_FILES['profile_image']['name'];
-    $target_dir = "assets/img/profiles/";
-    $target_file = $target_dir . basename($profileImage);
-    move_uploaded_file($_FILES['profile_image']['tmp_name'], $target_file);
 
-    // Insert user data into the database
-    $sql = "INSERT INTO users (username, password, email, firstname, lastname, address, age, sex, role, profile_image)
-            VALUES ('$username', '$password', '$email', '$firstname', '$lastname', '$address', $age, '$sex', '$role', '$profileImage')";
-    if ($conn->query($sql) === TRUE) {
-        echo "<p>Registration successful! <a href='login.php'>Login here</a></p>";
-    } else {
-        echo "Error: " . $conn->error;
-    }
-}
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
 <head>
     <link rel="stylesheet" href="assets/css/style.css">
     <title>User Registration</title>
@@ -38,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'includes/header.php'; ?>
     <div class="form-container">
         <h2>Register</h2>
-        <form method="POST" enctype="multipart/form-data">
+        <form action="create.php" method="POST" enctype="multipart/form-data">
             <label>Username:</label>
             <input type="text" name="username" required>
             <label>Password:</label>
@@ -60,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <option value="other">Other</option>
             </select>
             <label>Profile Picture:</label>
-            <input type="file" name="profile_image">
-            <button type="submit">Register</button>
+            <input type="file" name="file">
+            <button type="submit" value="create" name="create">Register</button>
         </form>
     </div>
     <?php include 'includes/footer.php'; ?>
